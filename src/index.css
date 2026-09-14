@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-xs: 22rem;
+  --font-display: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  --color-fiesta-purple: #7b2ff7;
+  --color-fiesta-pink: #e6007a;
+  --color-fiesta-magenta: #ff006e;
+  --color-fiesta-gold: #ffd60a;
+  --color-fiesta-amber: #ffb703;
+  --color-fiesta-teal: #06d6a0;
+  --color-fiesta-blue: #00b4d8;
+  --color-ink: #1a0b2e;
+
+  --color-status-available: #eef1ff;
+  --color-status-available-border: #c7cdf5;
+  --color-status-partial: #fff3c4;
+  --color-status-partial-border: #ffb703;
+  --color-status-paid: #06d6a0;
+  --color-status-paid-border: #04a97c;
+}
+
+:root {
+  color-scheme: light;
+}
+
+@layer components {
+  .input {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 2px solid #e5e7eb;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.15s ease;
+    background: white;
+  }
+  .input:focus {
+    border-color: var(--color-fiesta-purple);
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(255, 214, 10, 0.18), transparent 45%),
+    radial-gradient(circle at 90% 10%, rgba(6, 214, 160, 0.16), transparent 40%),
+    linear-gradient(180deg, #1a0b2e 0%, #2b1150 45%, #4a1a6b 100%);
+  min-height: 100vh;
+  color: #1a0b2e;
+}
+
+h1, h2, h3, .font-display {
+  font-family: var(--font-display);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(123, 47, 247, 0.4);
+  border-radius: 999px;
+}
+
+@keyframes confetti-pop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop {
+  animation: confetti-pop 0.35s ease-out;
+}
+
+@keyframes winner-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 214, 10, 0.7); }
+  50% { box-shadow: 0 0 0 14px rgba(255, 214, 10, 0); }
+}
+.animate-winner {
+  animation: winner-glow 1.6s ease-in-out infinite;
+}
