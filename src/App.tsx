@@ -30,7 +30,6 @@ export default function App() {
   const [editingConfig, setEditingConfig] = useState(false)
   const [selectedNumber, setSelectedNumber] = useState<RaffleNumber | null>(null)
   const [shareMode, setShareMode] = useState(false)
-  const [showBuyerNamesInShare, setShowBuyerNamesInShare] = useState(true)
 
   if (!supabaseConfigured) {
     return (
@@ -83,14 +82,7 @@ export default function App() {
   }
 
   if (shareMode) {
-    return (
-      <ShareView
-        config={config}
-        numbers={numbers}
-        showBuyerNames={showBuyerNamesInShare}
-        onExit={() => setShareMode(false)}
-      />
-    )
+    return <ShareView config={config} numbers={numbers} onExit={() => setShareMode(false)} />
   }
 
   return (
@@ -98,14 +90,6 @@ export default function App() {
       <Hero config={config} onEdit={() => setEditingConfig(true)} />
 
       <div className="flex flex-wrap gap-2 justify-end">
-        <label className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-white bg-black/20 rounded-xl px-3 py-2 backdrop-blur">
-          <input
-            type="checkbox"
-            checked={showBuyerNamesInShare}
-            onChange={(e) => setShowBuyerNamesInShare(e.target.checked)}
-          />
-          Mostrar nombres en compartir
-        </label>
         <button
           onClick={() => setShareMode(true)}
           className="rounded-xl bg-gradient-to-r from-fiesta-teal to-fiesta-blue text-white font-bold px-4 py-2 text-sm shadow hover:opacity-90"
