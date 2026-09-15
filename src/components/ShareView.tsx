@@ -1,6 +1,7 @@
-import { useMemo } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import type { RaffleConfig, RaffleNumber } from '../types'
 import { formatDate } from '../utils/format'
+import { shareOrDownloadImage } from '../utils/shareImage'
 
 interface Props {
   config: RaffleConfig
@@ -13,19 +14,49 @@ export default function ShareView({ config, numbers, onExit }: Props) {
   const winnerRow = hasWinner ? numbers.find((n) => n.number === config.winner_number) : null
   const available = useMemo(() => numbers.filter((n) => n.status === 'available'), [numbers])
   const gridNumbers = hasWinner ? numbers : available
+  const captureRef = useRef<HTMLDivElement>(null)
+  const [sharing, setSharing] = useState(false)
+  const [shareError, setShareError] = useState<string | null>(null)
+
+  async function handleShareImage() {
+    if (!captureRef.current) return
+    setSharing(true)
+    setShareError(null)
+    try {
+      await shareOrDownloadImage(captureRef.current, `${config.title.slice(0, 40)}-rifa.png`, config.title)
+    } catch (err) {
+      if (err instanceof Error && err.name !== 'AbortError') {
+        setShareError('No se pudo compartir la imagen. Intenta con una captura de pantalla manual.')
+      }
+    } finally {
+      setSharing(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-fiesta-purple via-fiesta-pink to-fiesta-magenta">
-      <div className="sticky top-0 z-10 flex justify-center py-3 bg-black/10 backdrop-blur">
+      <div className="sticky top-0 z-10 flex items-center justify-between gap-2 px-4 py-3 bg-black/10 backdrop-blur">
         <button
           onClick={onExit}
           className="rounded-full bg-white text-fiesta-purple px-4 py-2 text-sm font-bold shadow-lg"
         >
           ← Volver a modo edición
         </button>
+        <button
+          onClick={handleShareImage}
+          disabled={sharing}
+          className="rounded-full bg-fiesta-gold text-ink px-4 py-2 text-sm font-bold shadow-lg disabled:opacity-60"
+        >
+          {sharing ? 'Generando...' : '📤 Compartir imagen'}
+        </button>
       </div>
+      {shareError && <p className="text-center text-xs text-red-100 bg-red-500/80 py-2 px-4">{shareError}</p>}
 
-      <div id="share-capture" className="mx-auto max-w-md px-4 pb-8 pt-3 text-white">
+      <div
+        id="share-capture"
+        ref={captureRef}
+        className="mx-auto max-w-md px-4 pb-8 pt-3 text-white bg-gradient-to-br from-fiesta-purple via-fiesta-pink to-fiesta-magenta"
+      >
         <div className="text-center space-y-1.5 mb-4">
           <p className="uppercase tracking-widest text-xs font-bold text-fiesta-gold">🎟️ Rifa</p>
           <h1 className="font-display text-2xl font-extrabold leading-tight">{config.title}</h1>

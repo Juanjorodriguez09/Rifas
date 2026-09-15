@@ -13,8 +13,8 @@ export default function Hero({ config, onEdit, compact }: Props) {
       <div className="pointer-events-none absolute -top-10 -right-10 h-40 w-40 rounded-full bg-fiesta-gold/30 blur-2xl" />
       <div className="pointer-events-none absolute -bottom-14 -left-10 h-48 w-48 rounded-full bg-fiesta-teal/30 blur-2xl" />
 
-      <div className="relative flex items-start justify-between gap-4">
-        <div className="space-y-2">
+      <div className="relative flex flex-wrap items-start justify-between gap-3">
+        <div className="space-y-2 min-w-0 flex-1">
           <p className="uppercase tracking-widest text-xs sm:text-sm font-bold text-fiesta-gold">🎟️ Rifa</p>
           <h1 className="font-display text-2xl sm:text-4xl font-extrabold leading-tight">{config.title}</h1>
           {config.winner_number ? (
