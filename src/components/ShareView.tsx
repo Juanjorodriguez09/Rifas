@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
 import type { RaffleConfig, RaffleNumber } from '../types'
-import { formatDate } from '../utils/format'
+import { formatCurrency, formatDate } from '../utils/format'
 import { shareOrDownloadImage } from '../utils/shareImage'
 
 interface Props {
@@ -62,6 +62,9 @@ export default function ShareView({ config, numbers, onExit }: Props) {
           <h1 className="font-display text-2xl font-extrabold leading-tight">{config.title}</h1>
           <p className="uppercase tracking-wide text-[10px] text-white/70">Premio</p>
           <p className="font-display text-3xl font-black text-fiesta-gold drop-shadow">{config.prize}</p>
+          <p className="inline-block rounded-full bg-white/15 px-3 py-1 text-sm font-bold">
+            🎟️ Boleta: {formatCurrency(config.number_price)}
+          </p>
           <p className="text-sm font-semibold">📅 Sorteo: {formatDate(config.draw_date)}</p>
           {config.draw_mechanism && <p className="text-[11px] text-white/80">{config.draw_mechanism}</p>}
         </div>
